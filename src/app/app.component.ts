@@ -79,6 +79,10 @@ export class AppComponent implements OnInit{
       Category: 'Category C'
     }
   ]
+
+  constructor(
+    private bookmarkData: ApiService,
+  ){}
   Categories = Array.from(new Set(this.localArray.map((item) => item.Category)));
 
   GroupByCategory = this.groupBy(this.localArray, 'Category')
@@ -105,7 +109,12 @@ export class AppComponent implements OnInit{
     console.log(bookmarkVal)
   }
 
+  getAll(){
+    this.bookmarkData.getAllBookmarks()
+  }
+
   ngOnInit(): void {
+    // this.localArray = this.getAll()
     console.log(this.GroupByCategory)
   }
 

@@ -1,36 +1,68 @@
-import { Component,Input,Output,EventEmitter } from '@angular/core';
-import {FormArray,FormBuilder,FormControl,FormGroup,Validators } from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  styleUrls: ['./modal.component.css'],
 })
 export class ModalComponent {
-  @Input() Categories!:any
+  @Input() Categories!: any;
   @Output() getFormVal = new EventEmitter<any>();
-  
+
   showModal = false;
 
-  toggleModal(){
+  toggleModal() {
     this.showModal = !this.showModal;
+    if (this.showModal === false) {
+      this.bookmarkForm.reset();
+    }
   }
 
-  handleClick(){
-    this.getFormVal.emit(this.bookmarkForm.value)
-    console.log(this.bookmarkForm.value)
+  handleClick() {
+    this.getFormVal.emit(this.bookmarkForm.value);
+    console.log(this.bookmarkForm.value);
+    this.bookmarkForm.reset();
   }
 
   bookmarkForm = this.formBuilder.group({
-    Title: ['',Validators.required],
-    URL: ['',[Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-    Category: ['',Validators.required]
-  })
+    title: ['', Validators.required],
+    URL: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(
+          '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'
+        ),
+      ],
+    ],
+    Category: ['', Validators.required],
+  });
 
-  constructor(
-    private formBuilder: FormBuilder,
-  ) {}
+  catForm = this.formBuilder.group({
+    addCat: [''],
+  });
 
+  addCatFunc() {
+    if (
+      !this.Categories.includes(this.catForm.value.addCat) &&
+      this.catForm.value.addCat !== '' &&
+      this.catForm.value.addCat !== null
+    ) {
+      this.Categories.push(this.catForm.value.addCat);
+      console.log('Category array from modal comp ', this.Categories);
+      this.catForm.reset();
+    } else {
+    }
+  }
+
+  constructor(private formBuilder: FormBuilder) {}
 }
 
 //reference

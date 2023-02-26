@@ -1,4 +1,4 @@
-<div *ngFor="let category of GroupByCategory | keyvalue" class="mt-8">
+<div *ngFor="let category of this.GroupByCategory | keyvalue" class="mt-8">
     <p class="font-bold">{{category.key}}</p>
     <div class="bg-slate-300 h-56 w-80 mt-2 overflow-auto">
         <div class="flex justify-between mx-2 pt-2" *ngFor="let item of category.value">
